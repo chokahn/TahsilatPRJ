@@ -10,11 +10,11 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import tr.gov.ptt.entity.Menu;
+import tr.gov.ptt.entity.TahsilatDetay;
 
 
 @Stateless
-public class MenuFacade extends AbstractFacade<Menu> {
+public class TahsilatDetayFacade extends AbstractFacade<TahsilatDetay> {
     @PersistenceContext(unitName = "tr.gov.ptt_TahsilatPRJ_war_1.0-SNAPSHOTPU")
     private EntityManager em;
 
@@ -23,12 +23,9 @@ public class MenuFacade extends AbstractFacade<Menu> {
         return em;
     }
 
-    public MenuFacade() {
-        super(Menu.class);
+    public TahsilatDetayFacade() {
+        super(TahsilatDetay.class);
     }
 
-    public List<Menu> altMenuleriGetir(Integer p_ustMenuNo)
-    {
-        return em.createNamedQuery("Menu.findByUstmenu").setParameter("ustmenu", p_ustMenuNo).getResultList();
-    }
+
 }

@@ -12,7 +12,11 @@ public class DilBean implements Serializable
 {
     public void dilDegistir(String p_dil)
     {
-        locale = new Locale(p_dil);
+        if(p_dil.equals("tr"))   
+            locale = new Locale("tr","TR");
+        else
+            locale = Locale.ENGLISH;
+        
         FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
     }
     

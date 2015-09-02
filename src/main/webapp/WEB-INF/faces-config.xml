@@ -7,10 +7,17 @@
     
     <application>
         <message-bundle>
-            tr.gov.ptt.msj.ValidationMessages_tr
+            tr.gov.ptt.msj.ValidationMessages
         </message-bundle>
+       
         <locale-config>
-            tr.gov.ptt.msj.Messages_tr
+            <default-locale>tr</default-locale>
+            <supported-locale>en</supported-locale>
         </locale-config>
+        <resource-bundle>
+            <base-name>tr.gov.ptt.msj.Messages</base-name>
+            <var>msg</var>
+        </resource-bundle>
     </application>
 </faces-config>
+

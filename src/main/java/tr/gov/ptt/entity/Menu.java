@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package tr.gov.ptt.entity;
 
 import java.io.Serializable;
@@ -23,7 +22,6 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-
 @Entity
 @Table(name = "THS_MENU")
 @XmlRootElement
@@ -35,6 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Menu.findBySirano", query = "SELECT m FROM Menu m WHERE m.sirano = :sirano"),
     @NamedQuery(name = "Menu.findByUstmenu", query = "SELECT m FROM Menu m WHERE m.ustmenu = :ustmenu")})
 public class Menu implements Serializable {
+
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
@@ -52,6 +51,8 @@ public class Menu implements Serializable {
     private Integer sirano;
     @Column(name = "USTMENU")
     private Integer ustmenu;
+    @Column(name = "ICON")
+    private String icon;
     @JoinTable(name = "THS_MENU_TIP", joinColumns = {
         @JoinColumn(name = "MENUNO", referencedColumnName = "NO")}, inverseJoinColumns = {
         @JoinColumn(name = "TIPNO", referencedColumnName = "NO")})
@@ -103,6 +104,14 @@ public class Menu implements Serializable {
 
     public void setUstmenu(Integer ustmenu) {
         this.ustmenu = ustmenu;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     @XmlTransient
