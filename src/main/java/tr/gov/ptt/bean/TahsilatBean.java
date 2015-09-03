@@ -6,54 +6,37 @@
 package tr.gov.ptt.bean;
 
 import java.io.Serializable;
+import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import tr.gov.ptt.entity.Borc;
 import tr.gov.ptt.entity.Tahsilat;
+import tr.gov.ptt.entity.TahsilatDetay;
+import tr.gov.ptt.facade.TahsilatDetayFacade;
+import tr.gov.ptt.facade.TahsilatFacade;
 import tr.gov.ptt.service.BorcService;
 import tr.gov.ptt.service.KurumService;
 
 @Named(value = "tahsilatBean")
-@ViewScoped
+@SessionScoped
 public class TahsilatBean implements Serializable{
-
-    private Tahsilat tahsilat = new Tahsilat();
-    public Tahsilat getTahsilat() {
-        return tahsilat;
-    }
-    public void setTahsilat(Tahsilat tahsilat) {
-        this.tahsilat = tahsilat;
-    }
-   
-    
-    private Borc borc=new Borc();
-    public Borc getBorc() {
-        return borc;
-    }
-    public void setBorc(Borc borc) {
-        this.borc = borc;
-    }
-
     @Inject
     BorcService borcService;
-    
-    
-    private List<Borc> kurumFaturaListesi = new ArrayList<Borc>();
-    public List<Borc> getKurumFaturaListesi() {
-        return kurumFaturaListesi;
-    }
-    public void setKurumFaturaListesi(List<Borc> kurumFaturaListesi) {
-        this.kurumFaturaListesi = kurumFaturaListesi;
-    }
-    
-    
+   
+    double toplamPara;
+    double alinanPara;
+    double paraUstu;
+    Tahsilat tahsilat = new Tahsilat();
+    Borc borc=new Borc();
+    List<Borc> kurumFaturaListesi = new ArrayList<Borc>();
+    List<Borc> seciliFaturaListesi = new ArrayList<Borc>();
 
-    @Inject
-    KurumService kurumService;
+
 
     public List<String> kurumAdiTamamala(String p_sorgu) {
         List<String> kurumSonucListe = new ArrayList<String>();
@@ -67,14 +50,132 @@ public class TahsilatBean implements Serializable{
         return kurumSonucListe;
     }
 
-    public TahsilatBean() {
-
-    }
-    
     public String borcSorgula()
     {
+        this.toplamPara = this.alinanPara = this.paraUstu = 0;
+         
         tahsilat.getKurum().setNo(kurumService.kurumAdIleNoGetir(tahsilat.getKurum().getAd()));
         kurumFaturaListesi = borcService.borclariGetir(tahsilat.getKurum().getNo(),borc.getAboneNo());
         return "tahsilatListele.xhtml?faces-redirect=true";
+    }
+
+    public void toplamParaHesapla()
+    {
+        this.toplamPara = this.paraUstu = 0;
+        
+        for (Borc seciliFatura : seciliFaturaListesi) {
+          this.toplamPara+=seciliFatura.getFaturaTutar();
+        } 
+        paraUstuHesapla();
+    }
+        
+    
+    public void paraUstuHesapla()
+    {
+        this.paraUstu = this.alinanPara - this.toplamPara;
+    }
+
+    @Inject
+    KurumService kurumService;
+        
+    @Inject
+    TahsilatFacade tahsilatFacade;
+   
+    @Inject
+    TahsilatDetayFacade tahsilatDetayFacade;
+       
+    @Inject
+    KisiBean kisiBean;
+    
+    public String ode()
+    {
+//        Tahsilat tahsilat=new Tahsilat();
+//        tahsilat.setIslemTrh(new Date());
+//        tahsilat.setKisiIslemsayi(kisiBean.getKisi().getIslemsayi()+1);
+//        tahsilat.setKurum(kisiBean.getKisi().get);
+//        tahsilat.setTahsilatDetayList(null);
+//        tahsilat.setTutar(alinanPara);
+//        tahsilat.setKisi(kisiBean.getKisi());
+//        
+//        tahsilatFacade.create(tahsilat);
+//        
+//        // TODO : Kisi İslem Sayısı Artırılacak
+//        
+//        // List<Tahsilat> tahsilatListesi=new ArrayList<Tahsilat>();
+//        for (Borc fatura : seciliFaturaListesi) {
+//            TahsilatDetay tahsilatDetay=new TahsilatDetay();
+//            
+//            tahsilatDetay.setAboneNo(fatura.getAboneNo());
+//            tahsilatDetay.setFaturaNo(fatura.getFaturaNo());
+//            tahsilatDetay.setFaturaSonOdemeTrh(fatura.getFaturaSonOdemeTrh());
+//            tahsilatDetay.setTutar(fatura.get);
+//            
+//            
+//            
+//            tahsilatDetayFacade.create(tahsilatDetay);
+//        }
+//        return "tahsilatSonuc.xhtml?faces-redirect=true";
+    }
+    
+    
+    
+    public TahsilatBean() {
+
+    }
+        
+    public double getToplamPara() {
+        return toplamPara;
+    }
+
+    public void setToplamPara(double toplamPara) {
+        this.toplamPara = toplamPara;
+    }
+
+    public double getAlinanPara() {
+        return alinanPara;
+    }
+
+    public void setAlinanPara(double alinanPara) {
+        this.alinanPara = alinanPara;
+    }
+
+    public double getParaUstu() {
+        return paraUstu;
+    }
+
+    public void setParaUstu(double paraUstu) {
+        this.paraUstu = paraUstu;
+    }  
+
+    public Tahsilat getTahsilat() {
+        return tahsilat;
+    }
+
+    public void setTahsilat(Tahsilat tahsilat) {
+        this.tahsilat = tahsilat;
+    }
+
+    public Borc getBorc() {
+        return borc;
+    }
+
+    public void setBorc(Borc borc) {
+        this.borc = borc;
+    }  
+
+    public List<Borc> getKurumFaturaListesi() {
+        return kurumFaturaListesi;
+    }
+
+    public void setKurumFaturaListesi(List<Borc> kurumFaturaListesi) {
+        this.kurumFaturaListesi = kurumFaturaListesi;
+    }
+
+    public List<Borc> getSeciliFaturaListesi() {
+        return seciliFaturaListesi;
+    }
+
+    public void setSeciliFaturaListesi(List<Borc> seciliFaturaListesi) {
+        this.seciliFaturaListesi = seciliFaturaListesi;
     }
 }

@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Kurum.findAll", query = "SELECT k FROM Kurum k"),
     @NamedQuery(name = "Kurum.findByNo", query = "SELECT k FROM Kurum k WHERE k.no = :no"),
-    @NamedQuery(name = "Kurum.findByAd", query = "SELECT k FROM Kurum k WHERE k.ad = :ad")})
+    @NamedQuery(name = "Kurum.findByAd", query = "SELECT k.no FROM Kurum k WHERE k.ad = :ad")})
 public class Kurum implements Serializable {
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation

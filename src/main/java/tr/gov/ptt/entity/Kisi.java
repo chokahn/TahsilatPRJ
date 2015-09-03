@@ -8,7 +8,9 @@ package tr.gov.ptt.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,6 +20,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -62,6 +65,8 @@ public class Kisi implements Serializable {
     private Date dogtar;
     @Column(name = "MAAS")
     private Double maas;
+    @Column(name = "ISLEMSAYI")
+    private Integer islemsayi;
     @Size(max = 50)
     @Column(name = "TEMA")
     private String tema;
@@ -75,6 +80,10 @@ public class Kisi implements Serializable {
     @ManyToOne
     private Tip tip;
 
+    @OneToMany(mappedBy = "kisi",cascade = CascadeType.ALL)
+    List<Tahsilat> tahsilatListesi;
+    
+    
     public Kisi() {
         tip=new Tip();
     }
@@ -127,6 +136,14 @@ public class Kisi implements Serializable {
         return tema;
     }
 
+    public Integer getIslemsayi() {
+        return islemsayi;
+    }
+
+    public void setIslemsayi(Integer islemsayi) {
+        this.islemsayi = islemsayi;
+    }
+
     public void setTema(String tema) {
         this.tema = tema;
     }
@@ -154,6 +171,15 @@ public class Kisi implements Serializable {
     public void setTip(Tip tip) {
         this.tip = tip;
     }
+
+    public List<Tahsilat> getTahsilatListesi() {
+        return tahsilatListesi;
+    }
+
+    public void setTahsilatListesi(List<Tahsilat> tahsilatListesi) {
+        this.tahsilatListesi = tahsilatListesi;
+    }
+    
 
     @Override
     public int hashCode() {
