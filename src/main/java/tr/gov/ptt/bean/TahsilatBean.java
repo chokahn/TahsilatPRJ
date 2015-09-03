@@ -5,40 +5,52 @@
  */
 package tr.gov.ptt.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import tr.gov.ptt.entity.Borc;
 import tr.gov.ptt.entity.Tahsilat;
+import tr.gov.ptt.service.BorcService;
 import tr.gov.ptt.service.KurumService;
 
 @Named(value = "tahsilatBean")
-@RequestScoped
-public class TahsilatBean {
+@ViewScoped
+public class TahsilatBean implements Serializable{
 
     private Tahsilat tahsilat = new Tahsilat();
-
-    private Borc borc=new Borc();
-
-    public Borc getBorc() {
-        return borc;
-    }
-
-    public void setBorc(Borc borc) {
-        this.borc = borc;
-    }
-    
-    
     public Tahsilat getTahsilat() {
         return tahsilat;
     }
-
     public void setTahsilat(Tahsilat tahsilat) {
         this.tahsilat = tahsilat;
     }
+   
+    
+    private Borc borc=new Borc();
+    public Borc getBorc() {
+        return borc;
+    }
+    public void setBorc(Borc borc) {
+        this.borc = borc;
+    }
+
+    @Inject
+    BorcService borcService;
+    
+    
+    private List<Borc> kurumFaturaListesi = new ArrayList<Borc>();
+    public List<Borc> getKurumFaturaListesi() {
+        return kurumFaturaListesi;
+    }
+    public void setKurumFaturaListesi(List<Borc> kurumFaturaListesi) {
+        this.kurumFaturaListesi = kurumFaturaListesi;
+    }
+    
+    
 
     @Inject
     KurumService kurumService;
@@ -62,6 +74,7 @@ public class TahsilatBean {
     public String borcSorgula()
     {
         tahsilat.getKurum().setNo(kurumService.kurumAdIleNoGetir(tahsilat.getKurum().getAd()));
+        kurumFaturaListesi = borcService.borclariGetir(tahsilat.getKurum().getNo(),borc.getAboneNo());
         return "tahsilatListele.xhtml?faces-redirect=true";
     }
 }

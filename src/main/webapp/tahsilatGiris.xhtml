@@ -23,6 +23,10 @@
                         <p:outputLabel value="Abone No : " for="aboneNo"/>
                         <p:inputText id="aboneNo" value="#{tahsilatBean.borc.aboneNo}" required="true"/>
                         <p:message for="aboneNo"/>
+                        
+                         <p:outputLabel/>
+                         <p:commandButton value="Sorgula" action="#{tahsilatBean.borcSorgula()}" update="@form" ajax="false"/>
+                         <p:outputLabel/>
                     </p:panelGrid>
                 </h:form>  
             </ui:define>

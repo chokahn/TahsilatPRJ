@@ -6,6 +6,7 @@
 
 package tr.gov.ptt.facade;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,4 +27,9 @@ public class BorcFacade extends AbstractFacade<Borc> {
         super(Borc.class);
     }
 
+    public List<Borc> borclariGeitr(Integer p_kurumNo,String p_aboneNo)
+    {
+        return em.createNamedQuery("Borc.findByAboneNoKurumNo",Borc.class).setParameter("aboneNo", p_kurumNo).setParameter("kurumNo", p_aboneNo).getResultList();
+    }
 }
+

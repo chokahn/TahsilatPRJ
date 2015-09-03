@@ -33,6 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Borc.findByAboneNo", query = "SELECT b FROM Borc b WHERE b.aboneNo = :aboneNo"),
     @NamedQuery(name = "Borc.findByAboneAd", query = "SELECT b FROM Borc b WHERE b.aboneAd = :aboneAd"),
     @NamedQuery(name = "Borc.findByAboneSoyad", query = "SELECT b FROM Borc b WHERE b.aboneSoyad = :aboneSoyad"),
+    @NamedQuery(name = "Borc.findByAboneNoKurumNo", query = "SELECT b FROM Borc b WHERE b.aboneNo = :aboneNo AND b.kurum.no=:kurumNo ORDER BY b.faturaSonOdemeTrh"),
     @NamedQuery(name = "Borc.findByFaturaNo", query = "SELECT b FROM Borc b WHERE b.faturaNo = :faturaNo"),
     @NamedQuery(name = "Borc.findByFaturaSonOdemeTrh", query = "SELECT b FROM Borc b WHERE b.faturaSonOdemeTrh = :faturaSonOdemeTrh"),
     @NamedQuery(name = "Borc.findByFaturaTutar", query = "SELECT b FROM Borc b WHERE b.faturaTutar = :faturaTutar"),
